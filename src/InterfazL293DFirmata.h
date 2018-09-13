@@ -1,5 +1,5 @@
-#ifndef L293DFirmata_h
-#define L293DFirmata_h
+#ifndef InterfazL293DFirmata_h
+#define InterfazL293DFirmata_h
 
 #include <ConfigurableFirmata.h>
 #include "utility/FirmataL293D.h"
@@ -14,7 +14,7 @@
 #define L293D_DIR 5
 #define L293D_SPEED 6
 
-class L293DFirmata : public FirmataFeature
+class InterfazL293DFirmata : public FirmataFeature
 {
   public:
     boolean handlePinMode(byte pin, int mode);

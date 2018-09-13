@@ -1,9 +1,9 @@
 
 #include <ConfigurableFirmata.h>
-#include "L293DFirmata.h"
+#include "InterfazL293DFirmata.h"
 // #include "utility/FirmataL293D.h"
 
-boolean L293DFirmata::handlePinMode(byte pin, int mode)
+boolean InterfazL293DFirmata::handlePinMode(byte pin, int mode)
 {
   if (mode == OUTPUT) {
     if (IS_PIN_DIGITAL(pin)) {
@@ -21,7 +21,7 @@ boolean L293DFirmata::handlePinMode(byte pin, int mode)
   return false;
 }
 
-void L293DFirmata::handleCapability(byte pin)
+void InterfazL293DFirmata::handleCapability(byte pin)
 {
 }
 
@@ -29,7 +29,7 @@ void L293DFirmata::handleCapability(byte pin)
  * SYSEX-BASED commands
  *============================================================================*/
 
-boolean L293DFirmata::handleSysex(byte command, byte argc, byte *argv)
+boolean InterfazL293DFirmata::handleSysex(byte command, byte argc, byte *argv)
 {
   if (command == L293D_DATA) {
     byte  stepCommand, deviceNum, motorPin1, motorPin2, motorPin3;
@@ -84,7 +84,7 @@ boolean L293DFirmata::handleSysex(byte command, byte argc, byte *argv)
  * SETUP()
  *============================================================================*/
 
-void L293DFirmata::reset()
+void InterfazL293DFirmata::reset()
 {
   for (byte i = 0; i < MAX_OUTPUTS; i++) {
     if (outputs[i]) {
