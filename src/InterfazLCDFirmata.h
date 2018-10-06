@@ -2,6 +2,7 @@
 #define InterfazLCDFirmata_h
 
 #include <Wire.h>
+#include "utility/FirmataInterfaces.h"
 #include <LiquidCrystal_PCF8574.h>
 #include <ConfigurableFirmata.h>
 #include "FirmataFeature.h"

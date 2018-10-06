@@ -63,7 +63,7 @@ boolean AnalogInputFirmata::handlePinMode(byte pin, int mode)
 {
   if (IS_PIN_ANALOG(pin)) {
     if (mode == PIN_MODE_ANALOG) {
-      reportAnalog(PIN_TO_ANALOG(pin), 1); // turn on reporting
+      //reportAnalog(PIN_TO_ANALOG(pin), 1); // turn on reporting
       if (IS_PIN_DIGITAL(pin)) {
         pinMode(PIN_TO_DIGITAL(pin), INPUT); // disable output driver
       }

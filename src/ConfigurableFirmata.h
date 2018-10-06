@@ -16,7 +16,7 @@
 #define Configurable_Firmata_h
 
 #include "utility/Boards.h"  /* Hardware Abstraction Layer + Wiring/Arduino */
-
+#include <LiquidCrystal_PCF8574.h>
 /* Version numbers for the protocol.  The protocol is still changing, so these
  * version numbers are important.
  * Query using the REPORT_VERSION message.
@@ -70,13 +70,14 @@
 
 // extended command set using sysex (0-127/0x00-0x7F)
 /* 0x00-0x0F reserved for user-defined commands */
+#define L293D_DATA            0x02 // control a dc motor
+#define LCD_DATA            0x03 // control a dc motor
 #define SERIAL_MESSAGE          0x60 // communicate with serial devices, including other boards
 #define ENCODER_DATA            0x61 // reply with encoders current positions
 #define ACCELSTEPPER_DATA       0x62 // control a stepper motor
 #define SERVO_CONFIG            0x70 // set max angle, minPulse, maxPulse, freq
 #define STRING_DATA             0x71 // a string message with 14-bits per char
 #define STEPPER_DATA            0x72 // control a stepper motor
-#define L293D_DATA            0x52 // control a stepper motor
 #define ONEWIRE_DATA            0x73 // send an OneWire read/write/reset/select/skip/search request
 #define SHIFT_DATA              0x75 // a bitstream to/from a shift register
 #define I2C_REQUEST             0x76 // send an I2C read/write request
@@ -190,6 +191,7 @@ class FirmataClass
 
   private:
     Stream *FirmataStream;
+
     /* firmware name and version */
     byte firmwareVersionCount;
     byte *firmwareVersionVector;

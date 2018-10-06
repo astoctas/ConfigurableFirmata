@@ -1,7 +1,9 @@
 #ifndef InterfazFirmata_h
 #define InterfazFirmata_h
 
-#include <ConfigurableFirmata.h>
+#include "utility/FirmataInterfaces.h"
+#include "InterfazL293DFirmata.h"
+#include <AccelStepperFirmata.h>
 #include "FirmataFeature.h"
 
 
@@ -14,6 +16,8 @@ class InterfazFirmata : public FirmataFeature
     void reset();
 
     void initSteppers();
+    void initDC();
+    void initServos();
 };
 
 #endif
