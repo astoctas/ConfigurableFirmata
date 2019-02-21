@@ -1,5 +1,4 @@
 
-#include <LiquidCrystal_PCF8574.h>
 #include "InterfazLCDFirmata.h"
 #include "InterfazL293DFirmata.h"
 #include "AccelStepperFirmata.h"
@@ -26,6 +25,8 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
     byte param3 = 0;
     char buf[17] = "";
 
+
+
     // CATCH ALL SYSEX MESSAGES
     if (command == ACCELSTEPPER_DATA) {
       if(param1 == ACCELSTEPPER_STEP) {
@@ -38,6 +39,7 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
     }
     if (command == L293D_DATA) {
       if (argc > 2) param3 = argv[2];
+      bool noLCD = false;
       switch(param1) {
         case L293D_ON: sprintf_P(buf,PSTR(MSG_DC_ON),param2+1); break;
         case L293D_OFF: sprintf_P(buf,PSTR(MSG_DC_OFF),param2+1); break;
@@ -45,8 +47,10 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
         case L293D_INVERSE: sprintf_P(buf,PSTR(MSG_DC_INVERSE),param2+1); break;
         case L293D_DIR: sprintf_P(buf,PSTR(MSG_DC_DIR),param2+1, param3); break;
         case L293D_SPEED: sprintf_P(buf,PSTR(MSG_DC_SPEED),param2+1, map(param3,0,255,0,100)); break;
+        default:
+          noLCD = true;
       }
-      pushLCD(buf);
+      if(!noLCD)  pushLCD(buf);
       return false;
     }
     if (command == EXTENDED_ANALOG) {
@@ -114,7 +118,8 @@ void InterfazLCDFirmata::reset()
   lcd = new LiquidCrystal_PCF8574(LCD_ADDRESS);
   lcd->begin(16,2);
   lcd->setBacklight(255);
-  pushLCD("Hola!");  
+  lcd->clear();
+  printc("Hola!",0);  
 
 }
 

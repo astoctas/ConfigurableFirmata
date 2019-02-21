@@ -18,6 +18,7 @@ class InterfazFirmata : public FirmataFeature
     void initSteppers();
     void initDC();
     void initServos();
+    void initDigitalInputs();
 };
 
 #endif

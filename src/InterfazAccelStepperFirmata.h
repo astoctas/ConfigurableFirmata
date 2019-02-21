@@ -13,8 +13,8 @@
   See file LICENSE.txt for further informations on licensing terms.
 */
 
-#ifndef AccelStepperFirmata_h
-#define AccelStepperFirmata_h
+#ifndef InterfazAccelStepperFirmata_h
+#define InterfazAccelStepperFirmata_h
 
 #include <ConfigurableFirmata.h>
 #include "utility/AccelStepper.h"
@@ -37,12 +37,34 @@
 #define ACCELSTEPPER_SET_ACCELERATION 0x08
 #define ACCELSTEPPER_SET_SPEED 0x09
 #define ACCELSTEPPER_MOVE_COMPLETE 0x0a
+#define ACCELSTEPPER_ENABLE_PINS 0x0b
 #define MULTISTEPPER_CONFIG 0x20
 #define MULTISTEPPER_TO 0x21
 #define MULTISTEPPER_STOP 0x23
 #define MULTISTEPPER_MOVE_COMPLETE 0x24
 
-class AccelStepperFirmata: public FirmataFeature
+class L293DAccelStepper: public AccelStepper 
+{
+  public:
+      L293DAccelStepper(uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true)
+        : AccelStepper(interface, pin1, pin2, pin3, pin4, enable) {};
+      void  enablesOn()  {
+        digitalWrite(enable1, HIGH);
+        digitalWrite(enable2, HIGH);
+      };
+       void enablesOff() {
+        digitalWrite(enable1, LOW);
+        digitalWrite(enable2, LOW);
+      };      
+      void setEnablePins( uint8_t pin1 = 4, uint8_t pin2 = 5 ) {
+        enable1 = pin1;
+        enable2 = pin2;
+      }
+  private:
+    byte enable1, enable2;
+};
+
+class InterfazAccelStepperFirmata: public FirmataFeature
 {
   public:
     boolean handlePinMode(byte pin, int mode);
@@ -57,7 +79,7 @@ class AccelStepperFirmata: public FirmataFeature
     void update();
     void reset();
   private:
-    AccelStepper *stepper[MAX_ACCELSTEPPERS];
+    L293DAccelStepper *stepper[MAX_ACCELSTEPPERS];
     MultiStepper *group[MAX_GROUPS];
     bool isRunning[MAX_ACCELSTEPPERS];
     bool groupIsRunning[MAX_GROUPS];

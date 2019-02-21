@@ -16,11 +16,11 @@
 */
 
 #include <ConfigurableFirmata.h>
-#include "AccelStepperFirmata.h"
+#include "InterfazAccelStepperFirmata.h"
 #include "utility/AccelStepper.h"
 #include "utility/MultiStepper.h"
 
-boolean AccelStepperFirmata::handlePinMode(byte pin, int mode)
+boolean InterfazAccelStepperFirmata::handlePinMode(byte pin, int mode)
 {
   if (mode == PIN_MODE_STEPPER) {
     if (IS_PIN_DIGITAL(pin)) {
@@ -31,7 +31,7 @@ boolean AccelStepperFirmata::handlePinMode(byte pin, int mode)
   return false;
 }
 
-void AccelStepperFirmata::handleCapability(byte pin)
+void InterfazAccelStepperFirmata::handleCapability(byte pin)
 {
   if (IS_PIN_DIGITAL(pin)) {
     Firmata.write(PIN_MODE_STEPPER);
@@ -40,7 +40,7 @@ void AccelStepperFirmata::handleCapability(byte pin)
 }
 
 // Send position data when it's requested or a move completes
-void AccelStepperFirmata::reportPosition(byte deviceNum, bool complete)
+void InterfazAccelStepperFirmata::reportPosition(byte deviceNum, bool complete)
 {
   if (stepper[deviceNum]) {
     byte data[5];
@@ -50,8 +50,8 @@ void AccelStepperFirmata::reportPosition(byte deviceNum, bool complete)
     Firmata.write(START_SYSEX);
     Firmata.write(ACCELSTEPPER_DATA);
     if (complete) {
+      stepper[deviceNum]->enablesOff();
       Firmata.write(ACCELSTEPPER_MOVE_COMPLETE);
-      stepper[deviceNum]->disableOutputs();
     } else {
       Firmata.write(ACCELSTEPPER_REPORT_POSITION);
     }
@@ -65,7 +65,7 @@ void AccelStepperFirmata::reportPosition(byte deviceNum, bool complete)
   }
 }
 
-void AccelStepperFirmata::reportGroupComplete(byte deviceNum)
+void InterfazAccelStepperFirmata::reportGroupComplete(byte deviceNum)
 {
   if (group[deviceNum]) {
     Firmata.write(START_SYSEX);
@@ -80,7 +80,7 @@ void AccelStepperFirmata::reportGroupComplete(byte deviceNum)
  * SYSEX-BASED commands
  *============================================================================*/
 
-boolean AccelStepperFirmata::handleSysex(byte command, byte argc, byte *argv)
+boolean InterfazAccelStepperFirmata::handleSysex(byte command, byte argc, byte *argv)
 {
   if (command == ACCELSTEPPER_DATA) {
     byte stepCommand, deviceNum, interface, wireCount, stepType;
@@ -137,17 +137,17 @@ boolean AccelStepperFirmata::handleSysex(byte command, byte argc, byte *argv)
 
         // Instantiate our stepper
         if (wireCount == 1) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::DRIVER, stepOrMotorPin1, directionOrMotorPin2);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::DRIVER, stepOrMotorPin1, directionOrMotorPin2);
         } else if (wireCount == 2) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::FULL2WIRE, stepOrMotorPin1, directionOrMotorPin2);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::FULL2WIRE, stepOrMotorPin1, directionOrMotorPin2);
         } else if (wireCount == 3 && stepType == STEP_TYPE_WHOLE) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::FULL3WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::FULL3WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3);
         } else if (wireCount == 3 && stepType == STEP_TYPE_HALF) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::HALF3WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::HALF3WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3);
         } else if (wireCount == 4 && stepType == STEP_TYPE_WHOLE) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::FULL4WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3, motorPin4, false);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::FULL4WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3, motorPin4, false);
         } else if (wireCount == 4 && stepType == STEP_TYPE_HALF) {
-          stepper[deviceNum] = new AccelStepper(AccelStepper::HALF4WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3, motorPin4, false);
+          stepper[deviceNum] = new L293DAccelStepper(AccelStepper::HALF4WIRE, stepOrMotorPin1, directionOrMotorPin2, motorPin3, motorPin4, false);
         }
 
         // If there is still another byte to read we must be inverting some pins
@@ -180,10 +180,17 @@ boolean AccelStepperFirmata::handleSysex(byte command, byte argc, byte *argv)
 
       }
 
+      else if (stepCommand == ACCELSTEPPER_ENABLE_PINS) {
+        if (stepper[deviceNum]) {
+          stepper[deviceNum]->setEnablePins(argv[2], argv[3]);
+        }
+      }
+      
       else if (stepCommand == ACCELSTEPPER_STEP) {
         numSteps = decode32BitSignedInteger(argv[2], argv[3], argv[4], argv[5], argv[6]);
 
         if (stepper[deviceNum]) {
+          stepper[deviceNum]->enablesOn();
           stepper[deviceNum]->move(numSteps);
           isRunning[deviceNum] = true;
         }
@@ -308,7 +315,7 @@ boolean AccelStepperFirmata::handleSysex(byte command, byte argc, byte *argv)
  * SETUP()
  *============================================================================*/
 
-void AccelStepperFirmata::reset()
+void InterfazAccelStepperFirmata::reset()
 {
   for (byte i = 0; i < MAX_ACCELSTEPPERS; i++) {
     if (stepper[i]) {
@@ -331,7 +338,7 @@ void AccelStepperFirmata::reset()
  * Helpers
  *============================================================================*/
 
-float AccelStepperFirmata::decodeCustomFloat(byte arg1, byte arg2, byte arg3, byte arg4)
+float InterfazAccelStepperFirmata::decodeCustomFloat(byte arg1, byte arg2, byte arg3, byte arg4)
 {
   long l4 = (long)arg4;
   long significand = (long)arg1 | (long)arg2 << 7 | (long)arg3 << 14 | (l4 & 0x03) << 21;
@@ -348,7 +355,7 @@ float AccelStepperFirmata::decodeCustomFloat(byte arg1, byte arg2, byte arg3, by
   return result;
 }
 
-long AccelStepperFirmata::decode32BitSignedInteger(byte arg1, byte arg2, byte arg3, byte arg4, byte arg5)
+long InterfazAccelStepperFirmata::decode32BitSignedInteger(byte arg1, byte arg2, byte arg3, byte arg4, byte arg5)
 {
   long result = (long)arg1 | (long)arg2 << 7 | (long)arg3 << 14 | (long)arg4 << 21 | (((long)arg5 << 28) & 0x07);
 
@@ -359,7 +366,7 @@ long AccelStepperFirmata::decode32BitSignedInteger(byte arg1, byte arg2, byte ar
   return result;
 }
 
-void AccelStepperFirmata::encode32BitSignedInteger(long value, byte pdata[])
+void InterfazAccelStepperFirmata::encode32BitSignedInteger(long value, byte pdata[])
 {
   bool inv = false;
 
@@ -382,7 +389,7 @@ void AccelStepperFirmata::encode32BitSignedInteger(long value, byte pdata[])
 /*==============================================================================
  * LOOP()
  *============================================================================*/
-void AccelStepperFirmata::update()
+void InterfazAccelStepperFirmata::update()
 {
   bool stepsLeft;
 

@@ -8,6 +8,14 @@ void InterfazFirmata::handleCapability(byte pin)
 {
 }
 
+void  InterfazFirmata::initDigitalInputs() {
+  for(int i =0; i < MAX_DIGITAL_INPUTS; i++) {
+    Firmata.parse(SET_PIN_MODE);
+    Firmata.parse(DigitalInputs[i].pin);
+    Firmata.parse(INPUT);
+  }
+}
+
 void  InterfazFirmata::initServos() {
   for(int i =0; i < MAX_SERVO_MOTORS; i++) {
     Firmata.parse(SET_PIN_MODE);
@@ -82,6 +90,7 @@ boolean InterfazFirmata::handleSysex(byte command, byte argc, byte *argv)
 
 void InterfazFirmata::reset()
 {
+  initDigitalInputs();
   initDC();
   initSteppers();
   initServos();

@@ -25,14 +25,6 @@
 #define MSG_DC_DIR             "DC %d DIR %d"
 #define MSG_DC_SPEED        "DC %d POT %d%%"
 
-// Arduino Duemilanove, Diecimila, and NG
-#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
-// Wiring (and board)
-#elif defined(WIRING)
-// old Arduinos
-#elif defined(__AVR_ATmega8__)
-// Arduino Mega
-#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 	struct dc_pins {
 			byte enable, in1, in2;
 	};
@@ -44,10 +36,40 @@
 		struct servo_pins {
 			byte pin;
 		};
+		struct digital_pins {
+			byte pin;
+		};
 
+
+// Arduino Duemilanove, Diecimila, and NG
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
+#define MAX_DC_OUTPUTS  4
+#define MAX_STEPPERS  0
+#define MAX_SERVO_MOTORS  2
+#define MAX_DIGITAL_INPUTS  0
+    static  dc_pins DCOutputs[MAX_DC_OUTPUTS] = {
+      { 5,2,3 },
+      { 6,4,7 },
+      { 20,8,9 },
+      { 21,12,13 }
+    };
+    static   stepper_pins StepperOutputs[MAX_STEPPERS] = {};
+    static   servo_pins ServoOutputs[MAX_SERVO_MOTORS] = {
+      {10},
+      {11}
+    };
+    static   digital_pins DigitalInputs[MAX_DIGITAL_INPUTS] = {};    
+
+// Wiring (and board)
+#elif defined(WIRING)
+// old Arduinos
+#elif defined(__AVR_ATmega8__)
+// Arduino Mega
+#elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define MAX_DC_OUTPUTS  8
 #define MAX_STEPPERS  3
 #define MAX_SERVO_MOTORS  3
+#define MAX_DIGITAL_INPUTS  6
     static  dc_pins DCOutputs[MAX_DC_OUTPUTS] = {
       { 2,22,23 },
       { 3,24,25 },
@@ -68,6 +90,14 @@
       {11},
       {12}
     };
+    static   digital_pins DigitalInputs[MAX_DIGITAL_INPUTS] = {
+      {64},
+      {65},
+      {66},
+      {67},
+      {68},
+      {69}
+    };    
     // Arduino DUE
 #elif defined(__SAM3X8E__)
 // Arduino/Genuino MKR1000
