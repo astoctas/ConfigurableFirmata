@@ -1,9 +1,10 @@
 
 #include <ConfigurableFirmata.h>
-#include "InterfazL293DFirmata.h"
+#include "utility/AFMotor.h"
+#include "InterfazL293DShieldFirmata.h"
 // #include "utility/FirmataL293D.h"
 
-boolean InterfazL293DFirmata::handlePinMode(byte pin, int mode)
+boolean InterfazL293DShieldFirmata::handlePinMode(byte pin, int mode)
 {
   if (mode == OUTPUT) {
     if (IS_PIN_DIGITAL(pin)) {
@@ -21,7 +22,7 @@ boolean InterfazL293DFirmata::handlePinMode(byte pin, int mode)
   return false;
 }
 
-void InterfazL293DFirmata::handleCapability(byte pin)
+void InterfazL293DShieldFirmata::handleCapability(byte pin)
 {
 }
 
@@ -29,7 +30,7 @@ void InterfazL293DFirmata::handleCapability(byte pin)
  * SYSEX-BASED commands
  *============================================================================*/
 
-boolean InterfazL293DFirmata::handleSysex(byte command, byte argc, byte *argv)
+boolean InterfazL293DShieldFirmata::handleSysex(byte command, byte argc, byte *argv)
 {
   if (command == L293D_DATA) {
     byte  stepCommand, deviceNum, motorPin1, motorPin2, motorPin3;
@@ -40,39 +41,49 @@ boolean InterfazL293DFirmata::handleSysex(byte command, byte argc, byte *argv)
 
     if (deviceNum < MAX_DC_OUTPUTS) {
       if (stepCommand == L293D_CONFIG) {
-        motorPin1 = argv[2];
-        motorPin2 = argv[3];
-        motorPin3 = argv[4];
-        if (Firmata.getPinMode(motorPin1) == PIN_MODE_IGNORE || Firmata.getPinMode(motorPin2) == PIN_MODE_IGNORE  || Firmata.getPinMode(motorPin3) == PIN_MODE_IGNORE)
-          return false;
-        Firmata.setPinMode(motorPin1, PIN_MODE_PWM);
-        Firmata.setPinMode(motorPin2, OUTPUT);
-        Firmata.setPinMode(motorPin3, OUTPUT);
-
-        if (!outputs[deviceNum]) {
-          numOutputs++;
-        }
-        outputs[deviceNum] = new FirmataL293D(motorPin1, motorPin2, motorPin3);
+        outputs[deviceNum] = new AF_DCMotor(deviceNum + 1);
+        outputs[deviceNum]->setSpeed(255);
+        outputs[deviceNum]->running = 0;
       }
       else if (stepCommand == L293D_ON) {
-        outputs[deviceNum]->turnOn();
+        byte dir = outputs[deviceNum]->direction ? FORWARD : BACKWARD;
+        outputs[deviceNum]->run(dir);
+        outputs[deviceNum]->running = 1;
       }
       else if (stepCommand == L293D_OFF) {
-        outputs[deviceNum]->turnOff();
+        outputs[deviceNum]->run(RELEASE);
+        outputs[deviceNum]->running = 0;
       }
       else if (stepCommand == L293D_BRAKE) {
-        outputs[deviceNum]->brake(100);
+        outputs[deviceNum]->run(BRAKE);
+        delay(150);
+        outputs[deviceNum]->run(RELEASE);
+        outputs[deviceNum]->running = 0;
       }
       else if (stepCommand == L293D_DIR) {
-        byte direction = argv[2];
-        outputs[deviceNum]->setDirection(direction);
+        byte direction = argv[2] ? 1 : 0;
+        outputs[deviceNum]->direction = direction;
+        if(outputs[deviceNum]->running) {
+          byte dir = outputs[deviceNum]->direction ? FORWARD : BACKWARD;
+          outputs[deviceNum]->run(dir);
+        }
       }
       else if (stepCommand == L293D_INVERSE) {
-        outputs[deviceNum]->invert();
+        outputs[deviceNum]->direction = ! outputs[deviceNum]->direction;
+        if(outputs[deviceNum]->running) {
+          byte dir = outputs[deviceNum]->direction ? FORWARD : BACKWARD;
+          outputs[deviceNum]->run(dir);
+        }
       }
       else if (stepCommand == L293D_SPEED) {
         byte speed = argv[2] | argv[3] << 7;
         outputs[deviceNum]->setSpeed(speed);
+        if(outputs[deviceNum]->running) {
+          byte dir = outputs[deviceNum]->direction ? FORWARD : BACKWARD;
+          outputs[deviceNum]->run(dir);
+        } else {
+          outputs[deviceNum]->run(RELEASE);
+        }
       }
       return true;
     }
@@ -84,7 +95,7 @@ boolean InterfazL293DFirmata::handleSysex(byte command, byte argc, byte *argv)
  * SETUP()
  *============================================================================*/
 
-void InterfazL293DFirmata::reset()
+void InterfazL293DShieldFirmata::reset()
 {
   for (byte i = 0; i < MAX_DC_OUTPUTS; i++) {
     if (outputs[i]) {
@@ -92,5 +103,5 @@ void InterfazL293DFirmata::reset()
       outputs[i] = 0;
     }
   }
-  numOutputs = 0;
+
 }

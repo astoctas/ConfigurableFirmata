@@ -14,16 +14,7 @@
 #ifndef Firmata_Interfaces_h
 #define Firmata_Interfaces_h
 
-/* LCD STRINGS */
 
-#define MSG_STEPPER_STEP  "PAP %d %dp"
-#define MSG_SERVO_WRITE   "Servo %d %d"
-#define MSG_DC_ON              "DC %d ENCENDIDO"
-#define MSG_DC_OFF             "DC %d APAGADO"
-#define MSG_DC_INVERSE     "DC %d INVERTIR"
-#define MSG_DC_BRAKE        "DC %d FRENADO"
-#define MSG_DC_DIR             "DC %d DIR %d"
-#define MSG_DC_SPEED        "DC %d POT %d%%"
 
 	struct dc_pins {
 			byte enable, in1, in2;
@@ -43,22 +34,18 @@
 
 // Arduino Duemilanove, Diecimila, and NG
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
+#define _L293SHIELD_ 1
 #define MAX_DC_OUTPUTS  4
 #define MAX_STEPPERS  0
 #define MAX_SERVO_MOTORS  2
 #define MAX_DIGITAL_INPUTS  0
-    static  dc_pins DCOutputs[MAX_DC_OUTPUTS] = {
-      { 5,2,3 },
-      { 6,4,7 },
-      { 20,8,9 },
-      { 21,12,13 }
+    static  dc_pins DCOutputs[0] = {};
+    static  stepper_pins StepperOutputs[MAX_STEPPERS] = {};
+    static  servo_pins ServoOutputs[MAX_SERVO_MOTORS] = {
+      {9},
+      {10}
     };
-    static   stepper_pins StepperOutputs[MAX_STEPPERS] = {};
-    static   servo_pins ServoOutputs[MAX_SERVO_MOTORS] = {
-      {10},
-      {11}
-    };
-    static   digital_pins DigitalInputs[MAX_DIGITAL_INPUTS] = {};    
+    static   digital_pins DigitalInputs[MAX_DIGITAL_INPUTS] = {};
 
 // Wiring (and board)
 #elif defined(WIRING)
@@ -97,7 +84,7 @@
       {67},
       {68},
       {69}
-    };    
+    };
     // Arduino DUE
 #elif defined(__SAM3X8E__)
 // Arduino/Genuino MKR1000

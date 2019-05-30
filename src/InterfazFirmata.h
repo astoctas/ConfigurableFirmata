@@ -6,6 +6,9 @@
 #include <AccelStepperFirmata.h>
 #include "FirmataFeature.h"
 
+#define SERVO_ATTACH            0x01 // attach a servo
+#define SERVO_WRITE            0x02 // write to servo motor
+
 
 class InterfazFirmata : public FirmataFeature
 {

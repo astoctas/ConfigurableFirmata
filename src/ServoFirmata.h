@@ -24,7 +24,12 @@
 
 #include <Servo.h>
 #include <ConfigurableFirmata.h>
+#include "utility/FirmataInterfaces.h"
 #include "FirmataFeature.h"
+
+#define SERVO_ATTACH            0x01 // attach a servo
+#define SERVO_WRITE            0x02 // write to servo motor
+
 
 void servoAnalogWrite(byte pin, int value);
 
@@ -39,6 +44,7 @@ class ServoFirmata: public FirmataFeature
     void reset();
   private:
     Servo *servos[MAX_SERVOS];
+    int *devices[MAX_SERVO_MOTORS];
     void attach(byte pin, int minPulse, int maxPulse);
     void detach(byte pin);
 };
@@ -97,6 +103,7 @@ void ServoFirmata::handleCapability(byte pin)
 
 boolean ServoFirmata::handleSysex(byte command, byte argc, byte* argv)
 {
+
   if (command == SERVO_CONFIG) {
     if (argc > 4) {
       // these vars are here for clarity, they'll optimized away by the compiler
@@ -110,6 +117,24 @@ boolean ServoFirmata::handleSysex(byte command, byte argc, byte* argv)
       }
     }
   }
+  else if (command == SERVO_DATA) {
+    byte  stepCommand, deviceNum;
+
+    stepCommand = argv[0];
+    deviceNum = argv[1];
+
+    if (stepCommand == SERVO_ATTACH) {
+      byte pin = argv[2];
+      Firmata.setPinMode(pin, PIN_MODE_SERVO);
+      devices[deviceNum] = pin;
+    }
+    else if (stepCommand == SERVO_WRITE) {
+        int value = argv[2] + (argv[3] << 7);
+        analogWrite(devices[deviceNum], value);
+    }
+
+  }
+
   return false;
 }
 

@@ -18,9 +18,17 @@ void  InterfazFirmata::initDigitalInputs() {
 
 void  InterfazFirmata::initServos() {
   for(int i =0; i < MAX_SERVO_MOTORS; i++) {
+    /*
     Firmata.parse(SET_PIN_MODE);
     Firmata.parse(ServoOutputs[i].pin);
     Firmata.parse(PIN_MODE_SERVO);
+    */
+    Firmata.parse(START_SYSEX);
+    Firmata.parse(SERVO_DATA);
+    Firmata.parse(SERVO_ATTACH);
+    Firmata.parse(i);
+    Firmata.parse(ServoOutputs[i].pin);
+    Firmata.parse(END_SYSEX);
   }
 }
 
@@ -30,9 +38,12 @@ void  InterfazFirmata::initDC() {
     Firmata.parse(L293D_DATA);
     Firmata.parse(L293D_CONFIG);
     Firmata.parse(i);
+    #if defined(_L293SHIELD_)
+    #else
     Firmata.parse(DCOutputs[i].enable);
     Firmata.parse(DCOutputs[i].in1);
     Firmata.parse(DCOutputs[i].in2);
+    #endif
     Firmata.parse(END_SYSEX);
   }
 }
@@ -70,9 +81,9 @@ void  InterfazFirmata::initSteppers() {
     Firmata.parse(52);
     Firmata.parse(END_SYSEX);
   }
-  
 
-    
+
+
 }
 
 
@@ -96,5 +107,3 @@ void InterfazFirmata::reset()
   initServos();
 
 }
-
-

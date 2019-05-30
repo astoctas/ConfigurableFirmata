@@ -1,8 +1,8 @@
-#ifndef InterfazL293DFirmata_h
-#define InterfazL293DFirmata_h
+#ifndef InterfazL293DShieldFirmata_h
+#define InterfazL293DShieldFirmata_h
 
 #include <ConfigurableFirmata.h>
-#include "utility/FirmataL293D.h"
+#include "utility/AFMotor.h"
 #include "utility/FirmataInterfaces.h"
 #include "FirmataFeature.h"
 
@@ -15,7 +15,7 @@
 #define L293D_DIR 5
 #define L293D_SPEED 6
 
-class InterfazL293DFirmata : public FirmataFeature
+class InterfazL293DShieldFirmata : public FirmataFeature
 {
   public:
     boolean handlePinMode(byte pin, int mode);
@@ -23,8 +23,7 @@ class InterfazL293DFirmata : public FirmataFeature
     boolean handleSysex(byte command, byte argc, byte *argv);
     void reset();
   private:
-    FirmataL293D *outputs[MAX_DC_OUTPUTS];
-    byte numOutputs;
+    AF_DCMotor *outputs[MAX_DC_OUTPUTS];
 };
 
 #endif

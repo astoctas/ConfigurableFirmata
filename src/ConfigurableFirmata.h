@@ -71,7 +71,8 @@
 // extended command set using sysex (0-127/0x00-0x7F)
 /* 0x00-0x0F reserved for user-defined commands */
 #define L293D_DATA            0x02 // control a dc motor
-#define LCD_DATA            0x03 // control a dc motor
+#define LCD_DATA              0x03 // control an lcd display
+#define SERVO_DATA            0x04 // attach a servo
 #define SERIAL_MESSAGE          0x60 // communicate with serial devices, including other boards
 #define ENCODER_DATA            0x61 // reply with encoders current positions
 #define ACCELSTEPPER_DATA       0x62 // control a stepper motor
@@ -136,7 +137,6 @@ extern "C" {
   typedef void (*sysexCallbackFunction)(byte command, byte argc, byte *argv);
   typedef void (*delayTaskCallbackFunction)(long delay);
 }
-
 
 // TODO make it a subclass of a generic Serial/Stream base class
 class FirmataClass
