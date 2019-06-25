@@ -146,6 +146,4 @@
 
 // as long this is not defined for all boards:
 
-
-
 #endif /* Firmata_Interfaces_h */
