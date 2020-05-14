@@ -60,11 +60,13 @@ void PingFirmata::handleCapability(byte pin)
     if (IS_PIN_DIGITAL(pin)) {
           Firmata.write((byte)PING_READ);
           Firmata.write(1);
-    }    
+    }
+    /*
     if (IS_PIN_ANALOG(pin)) {
           Firmata.write((byte)PING_READ);
           Firmata.write(1);
-    }    
+    }
+    */
 }
 
 boolean PingFirmata::handleSysex(byte command, byte argc, byte* argv)
@@ -116,6 +118,7 @@ boolean PingFirmata::handleSysex(byte command, byte argc, byte* argv)
         responseArray[4] = (((unsigned long)duration & 0xFF));
 
         Firmata.sendSysex(PING_READ, 5, responseArray);
+        return true;
     }
   return false;
 }
