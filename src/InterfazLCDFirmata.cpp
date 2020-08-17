@@ -1,4 +1,14 @@
+
 #include "InterfazLCDFirmata.h"
+#if defined(_L293SHIELD_)
+#include "InterfazL293DShieldFirmata.h"
+#else
+#include "InterfazL293DFirmata.h"
+#endif
+#include "AccelStepperFirmata.h"
+
+#define SERVO_WRITE            0x02 // write to servo motor
+
 
 boolean InterfazLCDFirmata::handlePinMode(byte pin, int mode)
 {
@@ -7,6 +17,8 @@ boolean InterfazLCDFirmata::handlePinMode(byte pin, int mode)
 void InterfazLCDFirmata::handleCapability(byte pin)
 {
 }
+
+
 
 
 /*==============================================================================
@@ -21,8 +33,6 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
     char buf[17] = "";
 
 
-
-    // CATCH ALL SYSEX MESSAGES
   // LCD MESSAGES
   if (command == LCD_DATA) {
 

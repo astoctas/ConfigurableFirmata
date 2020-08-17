@@ -7,7 +7,6 @@
 #include <ConfigurableFirmata.h>
 #include "FirmataFeature.h"
 
-#define LCD_DATA  0x03
 #define LCD_ADDRESS 0x27
 #define LCD_PRINT 0x00
 #define LCD_PUSH 0x01

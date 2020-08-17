@@ -2,6 +2,7 @@
 #define InterfazFirmata_h
 
 #include "utility/FirmataInterfaces.h"
+#include "InterfazL293DShieldFirmata.h"
 #include "FirmataFeature.h"
 
 class InterfazFirmata : public FirmataFeature

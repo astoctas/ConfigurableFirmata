@@ -20,9 +20,9 @@ struct stepper_pins {
 
 // Arduino Duemilanove, Diecimila, and NG
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
-#define HAS_LCD
 #define MAX_STEPPERS 0
 static   stepper_pins StepperEnables[MAX_STEPPERS] = {};
+
 
 // Wiring (and board)
 #elif defined(WIRING)
@@ -30,7 +30,6 @@ static   stepper_pins StepperEnables[MAX_STEPPERS] = {};
 #elif defined(__AVR_ATmega8__)
 // Arduino Mega
 #elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-#define HAS_LCD
 #define MAX_STEPPERS 3
   static   stepper_pins StepperEnables[MAX_STEPPERS] = {
     { 40 },
