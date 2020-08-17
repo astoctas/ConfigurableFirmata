@@ -23,12 +23,6 @@ void  InterfazFirmata::initDC() {
     Firmata.parse(L293D_DATA);
     Firmata.parse(L293D_CONFIG);
     Firmata.parse(i);
-    #if defined(_L293SHIELD_)
-    #else
-    Firmata.parse(DCOutputs[i].enable);
-    Firmata.parse(DCOutputs[i].in1);
-    Firmata.parse(DCOutputs[i].in2);
-    #endif
     Firmata.parse(END_SYSEX);
   }
 }

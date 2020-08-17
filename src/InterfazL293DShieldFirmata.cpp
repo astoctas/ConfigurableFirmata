@@ -77,7 +77,7 @@ boolean InterfazL293DShieldFirmata::handleSysex(byte command, byte argc, byte *a
       }
       else if (stepCommand == L293D_SPEED) {
         byte speed = argv[2] | argv[3] << 7;
-        outputs[deviceNum]->setSpeed(speed);
+        outputs[deviceNum]->setSpeed(map(speed,0,100,0,255));
         if(outputs[deviceNum]->running) {
           byte dir = outputs[deviceNum]->direction ? FORWARD : BACKWARD;
           outputs[deviceNum]->run(dir);
