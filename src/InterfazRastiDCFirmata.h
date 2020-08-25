@@ -5,7 +5,7 @@
 #include "utility/FirmataInterfaces.h"
 #include "FirmataFeature.h"
 
-// #define L293D_DATA            0x02 // control a dc motor
+#define L293D_DATA            0x02 // control a dc motor
 
 #define L293D_CONFIG 0
 #define L293D_ON 1

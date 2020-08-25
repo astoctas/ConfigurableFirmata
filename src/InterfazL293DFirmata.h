@@ -6,6 +6,8 @@
 #include "utility/FirmataInterfaces.h"
 #include "FirmataFeature.h"
 
+#define L293D_DATA            0x02 // control a dc motor
+
 // #define MAX_OUTPUTS 8 // arbitrary value... may need to adjust
 #define L293D_CONFIG 0
 #define L293D_ON 1
