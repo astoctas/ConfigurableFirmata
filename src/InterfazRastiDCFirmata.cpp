@@ -60,15 +60,15 @@ boolean InterfazRastiDCFirmata::handleSysex(byte command, byte argc, byte *argv)
       else if (stepCommand == L293D_BRAKE) {
       }
       else if (stepCommand == L293D_DIR) {
-        byte direction = argv[2] ? 1 : 0;
+        byte direction = argv[2] == 1 ? 1 : 0;
         outputs[deviceNum].direccion = direction;
-        digitalWrite(outputs[deviceNum].pin_ground,outputs[deviceNum].direccion);
+        digitalWrite(outputs[deviceNum].pin_ground, outputs[deviceNum].direccion);
         if(outputs[deviceNum].running) 
           analogWrite(outputs[deviceNum].pin_potencia, outputs[deviceNum].direccion ? 255 - outputs[deviceNum].velocidad : outputs[deviceNum].velocidad);
       }
       else if (stepCommand == L293D_INVERSE) {
-        outputs[deviceNum].direccion = ! outputs[deviceNum].direccion;
-        digitalWrite(outputs[deviceNum].pin_ground,outputs[deviceNum].direccion);
+        outputs[deviceNum].direccion = ! outputs[deviceNum].direccion ? 1 : 0;
+        digitalWrite(outputs[deviceNum].pin_ground, outputs[deviceNum].direccion);
         if(outputs[deviceNum].running) 
           analogWrite(outputs[deviceNum].pin_potencia, outputs[deviceNum].direccion ? 255 - outputs[deviceNum].velocidad : outputs[deviceNum].velocidad);
       }
