@@ -11,6 +11,9 @@
 #define LCD_PRINT 0x00
 #define LCD_PUSH 0x01
 #define LCD_CLEAR 0x02
+#define LCD_SILENCE 0x03
+#define LCD_VERBOSE 0x04
+
 
 /* LCD STRINGS */
 
@@ -42,6 +45,7 @@ class InterfazLCDFirmata : public FirmataFeature
     void pushLCD(const char* str);
   private:
     char lcdBuffer[17];
+    boolean silent;
 };
 
 #endif

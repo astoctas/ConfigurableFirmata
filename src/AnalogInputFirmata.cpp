@@ -28,12 +28,12 @@ void reportAnalogInputCallback(byte analogPin, int value)
   char buf[17] = "";
 
   AnalogInputFirmataInstance->reportAnalog(analogPin, value);
-  InterfazLCDFirmata lcd;
-  lcd.init();
+  // InterfazLCDFirmata lcd;
+  //lcd.init();
   sprintf_P(buf,PSTR(MSG_REPORT_ANALOG_1));
-  lcd.printc(buf,0);
+  AnalogInputFirmataInstance->lcd->printc(buf,0);
   sprintf_P(buf,PSTR(MSG_REPORT_ANALOG_2),analogPin+1);
-  lcd.printc(buf,1);
+  AnalogInputFirmataInstance->lcd->printc(buf,1);
 }
 
 AnalogInputFirmata::AnalogInputFirmata()

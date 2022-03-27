@@ -105,6 +105,13 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
       else if (param1 == LCD_CLEAR) {
         lcd->clear();
       }
+      else if (param1 == LCD_SILENCE) {
+        silent = true;
+        lcd->clear();
+      }
+      else if (param1 == LCD_VERBOSE) {
+        silent = false;
+      }
       return true;
   }
   return false;
@@ -112,6 +119,7 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
 
 
 void InterfazLCDFirmata::printc(const char* str, byte row) {
+    if(silent) return;
     lcd->setCursor(0,row);
     String b  = String("");
     lcd->print(b.c_str());
@@ -144,4 +152,5 @@ void InterfazLCDFirmata::init() {
   init();
   lcd->clear();
   printc("Hola!",0);
+  silent = false;
 }

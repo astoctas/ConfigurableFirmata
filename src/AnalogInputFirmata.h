@@ -20,6 +20,7 @@
 #include <ConfigurableFirmata.h>
 #include "FirmataFeature.h"
 #include "FirmataReporting.h"
+#include "InterfazLCDFirmata.h"
 
 void reportAnalogInputCallback(byte analogPin, int value);
 
@@ -33,7 +34,7 @@ class AnalogInputFirmata: public FirmataFeature
     boolean handleSysex(byte command, byte argc, byte* argv);
     void reset();
     void report();
-
+    InterfazLCDFirmata *lcd;
   private:
     /* analog inputs */
     int analogInputsToReport; // bitwise array to store pin reporting
