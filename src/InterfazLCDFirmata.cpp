@@ -53,6 +53,8 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
       }
       else if (param1 == LCD_CLEAR) {
         lcd->clear();
+        const char* str = "";
+        memcpy(lcdBuffer,str,16);
       }
       return true;
   }
