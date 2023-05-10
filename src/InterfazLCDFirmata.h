@@ -12,6 +12,9 @@
 #define LCD_PRINT 0x00
 #define LCD_PUSH 0x01
 #define LCD_CLEAR 0x02
+#define LCD_WRITE 0x03
+#define LCD_ON 0x04
+#define LCD_OFF 0x05
 
 /* LCD STRINGS */
 
@@ -40,6 +43,7 @@ class InterfazLCDFirmata : public FirmataFeature
     LiquidCrystal_PCF8574 *lcd;
     void init();
     void printc(const char* str, byte row);
+    void write(const char* str, byte row, byte col);
     void pushLCD(const char* str);
   private:
     char lcdBuffer[17];

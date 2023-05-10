@@ -55,7 +55,8 @@ PixelFirmata::PixelFirmata()
 
 boolean PixelFirmata::handlePinMode(byte pin, int mode)
 {
- }
+  return true;
+}
 
 void PixelFirmata::handleCapability(byte pin)
 {

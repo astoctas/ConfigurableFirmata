@@ -44,6 +44,15 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
         }
         printc(buf, row);
       }
+      else if (param1 == LCD_WRITE) {
+        byte row = argv[1];
+        byte col = argv[2];
+        byte j = 0;
+        for (byte i = 3; i < argc - 1; i += 2) {
+          buf[j++]  = argv[i] + (argv[i + 1] << 7);
+        }
+        write(buf, row, col);
+      }
       else if (param1 == LCD_PUSH) {
         byte j = 0;
         for (byte i = 1; i < argc; i += 2) {
@@ -55,6 +64,12 @@ boolean InterfazLCDFirmata::handleSysex(byte command, byte argc, byte *argv)
         lcd->clear();
         const char* str = "";
         memcpy(lcdBuffer,str,16);
+      }
+      else if (param1 == LCD_OFF) {
+        lcd->setBacklight(0);
+      }
+      else if (param1 == LCD_ON) {
+        lcd->setBacklight(255);
       }
       return true;
   }
@@ -71,6 +86,12 @@ void InterfazLCDFirmata::printc(const char* str, byte row) {
     lcd->setCursor(col, row);
     lcd->print(s.c_str());
     if(row==0)  memcpy(lcdBuffer,str,16);
+}
+
+void InterfazLCDFirmata::write(const char* str, byte row, byte col) {
+    String s = String(str);
+    lcd->setCursor(col, row);
+    lcd->print(s.c_str());
 }
 
 void InterfazLCDFirmata::pushLCD(const char* str) {

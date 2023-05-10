@@ -11,9 +11,11 @@ void InterfazFirmata::handleCapability(byte pin)
 
 void  InterfazFirmata::initSteppers() {
   // CONFIGURAR STEPPERS
+  /*
   for(int i =0; i < MAX_STEPPERS; i++) {
     digitalWrite(StepperEnables[i].enable, HIGH);
   }
+  */
 
 }
 

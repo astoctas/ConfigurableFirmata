@@ -59,6 +59,19 @@ boolean FirmataReporting::elapsed()
   return false;
 }
 
+boolean FirmataReporting::elapsed1Hz()
+{
+  currentMillis = millis();
+  unsigned int samplingInterval1Hz = 2000;
+  if (currentMillis - previousMillis1Hz > samplingInterval1Hz) {
+    previousMillis1Hz += samplingInterval1Hz;
+    if (currentMillis - previousMillis1Hz > samplingInterval1Hz)
+      previousMillis1Hz = currentMillis - samplingInterval1Hz;
+    return true;
+  }
+  return false;
+}
+
 void FirmataReporting::reset()
 {
   previousMillis = millis();
