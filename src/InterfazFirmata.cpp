@@ -2,7 +2,7 @@
 
 boolean InterfazFirmata::handlePinMode(byte pin, int mode)
 {
-  return true;
+  return false;
 }
 
 void InterfazFirmata::handleCapability(byte pin)

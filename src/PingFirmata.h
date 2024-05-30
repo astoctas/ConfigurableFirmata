@@ -53,7 +53,7 @@ PingFirmata::PingFirmata()
 
 boolean PingFirmata::handlePinMode(byte pin, int mode)
 {
-  return true;
+  return false;
  }
 
 void PingFirmata::handleCapability(byte pin)

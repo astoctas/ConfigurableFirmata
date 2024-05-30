@@ -30,7 +30,7 @@
 // compile, but without support for any Servos.  Hopefully that's what the
 // user intended by not including Servo.h
 #ifndef NUM_MAX_SERVOS
-#define NUM_MAX_SERVOS 0
+#define NUM_MAX_SERVOS 2
 #endif
 
 /*
