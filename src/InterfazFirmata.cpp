@@ -2,6 +2,7 @@
 
 boolean InterfazFirmata::handlePinMode(byte pin, int mode)
 {
+  return true;
 }
 
 void InterfazFirmata::handleCapability(byte pin)
@@ -27,6 +28,16 @@ void  InterfazFirmata::initDC() {
     Firmata.parse(i);
     Firmata.parse(END_SYSEX);
   }
+  // SERVOS INTERFAZ
+  #ifdef _INTERFAZ_
+    Firmata.parse(SET_PIN_MODE);
+    Firmata.parse(0x09);
+    Firmata.parse(PIN_MODE_SERVO);
+    Firmata.parse(SET_PIN_MODE);
+    Firmata.parse(0x0A);
+    Firmata.parse(PIN_MODE_SERVO);
+  #endif
+  
 }
 
 
@@ -36,6 +47,7 @@ void  InterfazFirmata::initDC() {
 
 boolean InterfazFirmata::handleSysex(byte command, byte argc, byte *argv)
 {
+  return true;
 }
 
 /*==============================================================================

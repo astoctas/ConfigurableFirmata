@@ -35,7 +35,9 @@
 
 #define ONEWIRE_WITHDATA_REQUEST_BITS 0x3C
 
+#ifndef ONEWIRE_CRC
 #define ONEWIRE_CRC 0 //for OneWire.h: crc-functions are not used by Firmata
+#endif
 
 //default value for power:
 #define ONEWIRE_POWER 1

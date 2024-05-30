@@ -38,7 +38,7 @@ class ServoFirmata: public FirmataFeature
     boolean handleSysex(byte command, byte argc, byte* argv);
     void reset();
   private:
-    Servo *servos[MAX_SERVOS];
+    Servo *servos[NUM_MAX_SERVOS];
     void attach(byte pin, int minPulse, int maxPulse);
     void detach(byte pin);
 };

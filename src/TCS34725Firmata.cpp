@@ -5,6 +5,7 @@
 
 boolean TCS34725Firmata::handlePinMode(byte pin, int mode)
 {
+  return true;
 }
 
 void TCS34725Firmata::handleCapability(byte pin)

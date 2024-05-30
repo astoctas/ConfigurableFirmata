@@ -53,6 +53,7 @@ PingFirmata::PingFirmata()
 
 boolean PingFirmata::handlePinMode(byte pin, int mode)
 {
+  return true;
  }
 
 void PingFirmata::handleCapability(byte pin)
@@ -72,7 +73,7 @@ void PingFirmata::handleCapability(byte pin)
 boolean PingFirmata::handleSysex(byte command, byte argc, byte* argv)
 {
   if (command == PING_READ) {
-        byte pulseDurationArray[4] = {
+        int pulseDurationArray[4] = {
         (argv[2] & 0x7F) | ((argv[3] & 0x7F) << 7),
         (argv[4] & 0x7F) | ((argv[5] & 0x7F) << 7),
         (argv[6] & 0x7F) | ((argv[7] & 0x7F) << 7),
@@ -98,7 +99,7 @@ boolean PingFirmata::handleSysex(byte command, byte argc, byte* argv)
         }
         unsigned long duration;
         byte responseArray[5];
-        byte timeoutArray[4] = {
+        int timeoutArray[4] = {
             (argv[10] & 0x7F) | ((argv[11] & 0x7F) << 7),
             (argv[12] & 0x7F) | ((argv[13] & 0x7F) << 7),
             (argv[14] & 0x7F) | ((argv[15] & 0x7F) << 7),
