@@ -104,6 +104,6 @@ void InterfazFirmata::reset()
   initDigitalInputs();
   initDC();
   initSteppers();
-  initServos();
+ // initServos();
 
 }

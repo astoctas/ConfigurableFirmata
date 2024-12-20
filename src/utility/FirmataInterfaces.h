@@ -34,7 +34,7 @@
 
 // Arduino Duemilanove, Diecimila, and NG
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__)
-#define _L293SHIELD_ 1
+//#define _L293SHIELD_ 1
 #define MAX_DC_OUTPUTS  4
 #define MAX_STEPPERS  0
 #define MAX_SERVO_MOTORS  2
