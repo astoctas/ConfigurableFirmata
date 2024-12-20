@@ -29,8 +29,8 @@
 // this file).  If Servo.h wasn't included, this allows the code to still
 // compile, but without support for any Servos.  Hopefully that's what the
 // user intended by not including Servo.h
-#ifndef NUM_MAX_SERVOS
-#define NUM_MAX_SERVOS 2
+#ifndef MAX_SERVOS
+#define MAX_SERVOS 0
 #endif
 
 /*
@@ -161,7 +161,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) <= 19)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) < 14 + TOTAL_ANALOG_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 18 || (p) == 19)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define PIN_TO_DIGITAL(p)       (p)
@@ -177,7 +177,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= FIRST_ANALOG_PIN && (p) < (FIRST_ANALOG_PIN+TOTAL_ANALOG_PINS))
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == SDA || (p) == SCL)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define PIN_TO_DIGITAL(p)       (p)
@@ -194,7 +194,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) <= 19)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) <= 19)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 18 || (p) == 19)
 #define PIN_TO_DIGITAL(p)       (p)
 #define PIN_TO_ANALOG(p)        ((p) - 14)
@@ -217,7 +217,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 54 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 2 && (p) - 2 < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 2 && (p) - 2 < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 20 || (p) == 21)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) > 13 && (p) < 20)
@@ -241,7 +241,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 54 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 2 && (p) - 2 < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 2 && (p) - 2 < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 20 || (p) == 21) // 70 71
 #define IS_PIN_SERIAL(p)        ((p) > 13 && (p) < 20)
 #define PIN_TO_DIGITAL(p)       (p)
@@ -257,7 +257,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       (((p) >= 0 && (p) <= 21) && !IS_PIN_SERIAL(p))
 #define IS_PIN_ANALOG(p)        ((p) >= 15 && (p) < 15 + TOTAL_ANALOG_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 11 || (p) == 12) // SDA = 11, SCL = 12
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == PIN_SERIAL1_RX || (p) == PIN_SERIAL1_TX) //defined in variant.h  RX = 13, TX = 14
@@ -274,7 +274,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((((p) >= 0 && (p) <= 21) || (p) == 32) && !IS_PIN_SERIAL(p))
 #define IS_PIN_ANALOG(p)        (((p) >= 15 && (p) < 15 + TOTAL_ANALOG_PINS) || (p) == 33)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 11 || (p) == 12) // SDA = 11, SCL = 12
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == PIN_SERIAL1_RX || (p) == PIN_SERIAL1_TX) //defined in variant.h  RX = 13, TX = 14
@@ -291,7 +291,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       (((p) >= 0 && (p) <= 21))
 #define IS_PIN_ANALOG(p)        (((p) >= 15 && (p) < 15 + TOTAL_ANALOG_PINS) || (p) == 32)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 11 || (p) == 12) // SDA = 11, SCL = 12
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == PIN_SERIAL1_RX || (p) == PIN_SERIAL1_TX) //defined in variant.h  RX = 13, TX = 14
@@ -308,7 +308,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       (((p) >= 0 && (p) <= 21))
 #define IS_PIN_ANALOG(p)        (((p) >= 15 && (p) < 15 + TOTAL_ANALOG_PINS) || (p) == 32)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 11 || (p) == 12) // SDA = 11, SCL = 12
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == PIN_SERIAL1_RX || (p) == PIN_SERIAL1_TX) //defined in variant.h  RX = 13, TX = 14
@@ -324,7 +324,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       (((p) >= 0 && (p) <= 21))
 #define IS_PIN_ANALOG(p)        (((p) >= 15 && (p) < 15 + TOTAL_ANALOG_PINS) || (p) == 32)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 11 || (p) == 12) // SDA = 11, SCL = 12
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == PIN_SERIAL1_RX || (p) == PIN_SERIAL1_TX) //defined in variant.h  RX = 13, TX = 14
@@ -347,7 +347,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) <= 19)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) < 14 + TOTAL_ANALOG_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == 20 || (p) == 21) // SDA = 20, SCL = 21
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK) // SS = A2
 #define IS_PIN_SERIAL(p)        ((p) == 0 || (p) == 1)
@@ -365,7 +365,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) < 20)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) < 20)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS+2)
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS+2)
 #define IS_PIN_I2C(p)           ((p) == PIN_WIRE_SDA || (p) == PIN_WIRE_SCL) // SDA = 20, SCL = 21
 #define IS_PIN_SPI(p)           ((p) == SS || (p)== MOSI || (p) == MISO || (p == SCK)) // 10, 11, 12, 13
 #define PIN_TO_DIGITAL(p)       (p)
@@ -384,7 +384,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) <= 20)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) < 14 + TOTAL_ANALOG_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p) // 3, 5, 6, 9
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS) // deprecated since v2.4
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS) // deprecated since v2.4
 #define IS_PIN_I2C(p)           ((p) == SDA || (p) == SCL) // SDA = 18, SCL = 19
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 0 || (p) == 1)
@@ -404,7 +404,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        (0)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           (0)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 2 || (p) == 3)
@@ -424,7 +424,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 11 && (p) <= 22)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 5 || (p) == 6)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 7 || (p) == 8)
@@ -455,7 +455,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) <= 63)
 #define IS_PIN_ANALOG(p)        (((p) >= 14 && (p) <= 23) || ((p) >= 31 && (p) <= 39) || ((p) >= 49 && (p) <= 50) || ((p) >= 64 && (p) <= 69))
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 18 || (p) == 19)
 #define IS_PIN_SERIAL(p)        (((p) > 6 && (p) < 11) || ((p) == 0 || (p) == 1) || ((p) > 30 && (p) < 35) || ((p) == 47 || (p) == 48))
 #define PIN_TO_DIGITAL(p)       (p)
@@ -479,7 +479,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) <= 33)
 #define IS_PIN_ANALOG(p)        (((p) >= 14 && (p) <= 23) || ((p) >= 34 && (p) <= 38))
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 18 || (p) == 19)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        (((p) > 6 && (p) < 11) || ((p) == 0 || (p) == 1))
@@ -503,7 +503,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) <= 26)
 #define IS_PIN_ANALOG(p)        ((p) >= 14)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 18 || (p) == 19)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        (((p) > 6 && (p) < 11) || ((p) == 0 || (p) == 1))
@@ -523,7 +523,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 38 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 0 || (p) == 1)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 2 || (p) == 3)
@@ -543,7 +543,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 0 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 18 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           ((p) == 3 || (p) == 5 || (p) == 6 || (p) == 9 || (p) == 10 || (p) == 11 || (p) == 13)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 2 || (p) == 3)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 0 || (p) == 1)
@@ -563,7 +563,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) <= 19)
 #define IS_PIN_ANALOG(p)        ((p) >= 14 && (p) <= 19)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) - 2 < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == SDA || (p) == SCL)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_SERIAL(p)        ((p) == 0 || (p) == 1)
@@ -619,7 +619,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 24 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 16 || (p) == 17)
 #define PIN_TO_DIGITAL(p)       (p)
 #define PIN_TO_ANALOG(p)        ((p) - 24)
@@ -635,7 +635,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       ((p) >= 2 && (p) < TOTAL_PINS)
 #define IS_PIN_ANALOG(p)        ((p) >= 36 && (p) < TOTAL_PINS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         ((p) >= 0 && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == 4 || (p) == 5)
 #define PIN_TO_DIGITAL(p)       (p)
 #define PIN_TO_ANALOG(p)        ((p) - 36)
@@ -653,7 +653,7 @@ writePort(port, value, bitmask):  Write an 8 bit port.
 #define IS_PIN_DIGITAL(p)       (((p) >= 0 && (p) <= 5) || ((p) >= 12 && (p) < A0))
 #define IS_PIN_ANALOG(p)        ((p) >= A0 && (p) < A0 + NUM_ANALOG_INPUTS)
 #define IS_PIN_PWM(p)           digitalPinHasPWM(p)
-#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < NUM_MAX_SERVOS)
+#define IS_PIN_SERVO(p)         (IS_PIN_DIGITAL(p) && (p) < MAX_SERVOS)
 #define IS_PIN_I2C(p)           ((p) == SDA || (p) == SCL)
 #define IS_PIN_SPI(p)           ((p) == SS || (p) == MOSI || (p) == MISO || (p) == SCK)
 #define IS_PIN_INTERRUPT(p)     (digitalPinToInterrupt(p) > NOT_AN_INTERRUPT)
